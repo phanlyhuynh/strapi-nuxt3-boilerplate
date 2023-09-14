@@ -1,0 +1,57 @@
+version: "3"
+services:
+  strapi:
+    container_name: eco_shop
+    image: node:18-alpine
+    restart: unless-stopped
+    tty: true
+    working_dir: /api
+    volumes:
+      - ./api:/api
+    ports:
+      - "1337:1337"
+    networks:
+      - strapi
+    depends_on:
+      - strapiDB
+
+  strapi-web:
+    container_name: eco_shop_web
+    image: node:18-alpine
+    restart: unless-stopped
+    tty: true
+    working_dir: /web
+    volumes:
+      - ./web:/web
+    ports:
+      - "3000:3000"
+      - 24678:24678
+    networks:
+      - strapi
+
+  strapiDB:
+    container_name: strapiDB
+    # platform: linux/amd64 #for platform error on Apple M1 chips
+    restart: unless-stopped
+    # env_file: .env
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_USER: user
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: eco_shop
+    volumes:
+      # - strapi-data:/var/lib/mysql
+      - ./data:/var/lib/mysql # if you want to use a bind folder
+    ports:
+      - "3306:3306"
+    networks:
+      - strapi
+
+volumes:
+  strapi-data:
+
+networks:
+  strapi:
+    driver: bridge
