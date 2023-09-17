@@ -1,31 +1,24 @@
 {
   "kind": "collectionType",
-  "collectionName": "products",
+  "collectionName": "carts",
   "info": {
-    "singularName": "product",
-    "pluralName": "products",
-    "displayName": "Product",
-    "description": ""
+    "singularName": "cart",
+    "pluralName": "carts",
+    "displayName": "Cart"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string"
-    },
-    "price": {
-      "type": "float"
-    },
-    "quantity": {
+    "user_id": {
       "type": "integer"
     },
     "cart_items": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::cart-item.cart-item",
-      "mappedBy": "product"
+      "mappedBy": "cart"
     }
   }
 }

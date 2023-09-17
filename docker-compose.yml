@@ -49,6 +49,15 @@ services:
     networks:
       - strapi
 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - strapi
+
+
 volumes:
   strapi-data:
 
